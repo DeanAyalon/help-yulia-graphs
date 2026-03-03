@@ -454,16 +454,18 @@ public class MainFrame extends JFrame {
 
     //Secant Method
     private double secantMethod(double a, double b, double epsilon) {
-        System.out.println("x0 = " + a + ", f(" + a + ") = " + evaluateFunction(functionField.getText(), a));
-        System.out.println("x1 = " + b + ", f(" + b + ") = " + evaluateFunction(functionField.getText(), b));
-        for (iterationCount = 0; iterationCount < 400; iterationCount++) {
-            final double fb = evaluateFunction(functionField.getText(), b);
-            final double fa = evaluateFunction(functionField.getText(), a);
+        final String func = functionField.getText();
+        System.out.println(evaluateFunction(func, 1));
+        System.out.println("x0 = " + a + ", f(" + a + ") = " + evaluateFunction(func, a));
+        System.out.println("x1 = " + b + ", f(" + b + ") = " + evaluateFunction(func, b));
+        for (iterationCount = 0; iterationCount < 100; iterationCount++) {
+            final double fb = evaluateFunction(func, b);
+            final double fa = evaluateFunction(func, a);
             final double c = b - fb * (b - a) / (fb - fa);
-            final double fc = evaluateFunction(c);
-            System.out.println("x" + iterationCount + " = " + c + ", f(" + c + ") = " + evaluateFunction(functionField.getText(), c));
+            final double fc = evaluateFunction(func, c);
+            System.out.println("x" + iterationCount + " = " + c + ", f(" + c + ") = " + evaluateFunction(func, c));
             System.out.println("|f" + iterationCount + "| = " + Math.abs(fc));
-            System.out.println("|x" + iterationCount + " - x" + (n - 1) + "| = " + Math.abs(c - b));
+            System.out.println("|x" + (iterationCount + 1) + " - x" + iterationCount + "| = " + Math.abs(c - b));
             if (Math.abs(fc) < epsilon || Math.abs(c - b) < epsilon) return c;
             a = b;
             b = c;
@@ -628,6 +630,7 @@ public class MainFrame extends JFrame {
             return evaluateExpression(expression);
 
         } catch (Exception e) {
+            System.out.println(e);
             return Double.NaN;
         }
     }
